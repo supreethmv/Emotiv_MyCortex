@@ -1,0 +1,28 @@
+ours
+{
+    "met":[false,0.5,false,0.426827,0.0,false,0.37754,false,0.397314,false,0.569001,false,0.30294],
+    "sid":"cfc4f358-5a14-4ed4-bf9f-679d0df84e40",
+    "time":1575898734.1691
+}
+
+
+
+schema:
+"met":
+    [
+        "eng.isActive","eng",
+        "exc.isActive","exc","lex",
+        "str.isActive","str",
+        "rel.isActive","rel",
+        "int.isActive","int",
+        "foc.isActive","foc"
+    ]
+
+
+
+eg:
+{
+    "met":[false,0.670704,false,0,0,false,0,true,0.266589,false,0,true,0.098421],
+    "sid":"6a68b92a-cb1f-4062-bf1f-74424fbae065",
+    "time":1559903137.1741
+}
