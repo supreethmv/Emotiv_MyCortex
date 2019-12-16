@@ -17,6 +17,8 @@ import websockets
 import ssl
 import json
 import logging
+import paho.mqtt.client as mqtt
+import time
 
 # Set up logging for websockets library
 wslogger = logging.getLogger('websockets')
@@ -27,6 +29,12 @@ logger = logging.getLogger('cortex')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler())
 
+
+broker_address="broker.hivemq.com"
+topic="Topic_of_your_choice"
+
+file=open("sampleText.txt","w+")
+file.close()
 
 class CortexApiException(Exception):
     pass
@@ -41,6 +49,7 @@ class Cortex(object):
         self.auth_token = None
         self.packet_count = 0
         self.id_sequence = 0
+        self.client = mqtt.Client("Producer")
 
     def parse_client_id_file(self, client_id_file_path):
         '''
@@ -125,6 +134,12 @@ class Cortex(object):
 
         self.websocket = await websockets.connect(
             self.CORTEX_URL, ssl=ssl_context)
+        ''' Open an MQTT connection to ppublish data.  '''
+        print("creating new instance with name 'Producer'")
+        print("connecting to broker")
+        self.client.connect(broker_address)
+        self.client.loop_start()
+        print("Publishing message to topic",topic)
 
     async def send_command(self, method, auth=True, callback=None, **kwargs):
         '''
@@ -170,9 +185,12 @@ class Cortex(object):
             #eeg_pm = json.loads(resp)
             file=open("sampleText.txt","a+")
             #file.write(str(self.packet_count)+","+str(resp.split("],")[0].split(":[")[1].split("false,")[1])+"\n")
-            file.write(str(self.packet_count)+",")
+            #file.write(str(self.packet_count)+",")
             ##for i in [1,3,4,6,8,10,12]:file.write(str(round(float(eeg_pm["met"][i]),2)*100)+',')
-            file.write(resp+"\n")
+            #file.write(resp+"\n")
+            data=str(self.packet_count)+","+resp+"\n"
+            file.write(data)
+            self.client.publish(topic,data)
             file.close()
         self.packet_count += 1
         return resp
@@ -180,7 +198,8 @@ class Cortex(object):
     def close(self):
         ''' Close the cortex connection '''
         self.websocket.close()
-
+        self.client.loop_stop()
+        self.client.disconnect()
     ##
     # Here down are cortex specific commands
     # Each of them is documented thoroughly in the API documentation:

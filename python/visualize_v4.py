@@ -7,7 +7,7 @@ import json
 fig, axs = plt.subplots(3,2)
 
 def animate(i):
-    pullData = open("sampleText.txt","r").read()
+    pullData = open("sampleText_.txt","r").read()
     dataArray = pullData.split('\n')
     x = []
     y = {'eng':[],'exc':[],'lex':[],'str':[],'rel':[],'int':[],'foc':[]}
