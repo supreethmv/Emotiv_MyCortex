@@ -139,7 +139,7 @@ class Cortex(object):
         print("connecting to broker")
         self.client.connect(broker_address)
         self.client.loop_start()
-        print("Publishing message to topic",topic)
+        print("SUbscription for publishing messages to the topic \""+topic+"\"")
 
     async def send_command(self, method, auth=True, callback=None, **kwargs):
         '''

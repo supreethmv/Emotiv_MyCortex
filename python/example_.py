@@ -3,6 +3,7 @@ from lib.cortex import Cortex
 
 
 async def do_stuff(cortex):
+    # await cortex.inspectApi()
     print("** USER LOGIN **")
     await cortex.get_user_login()
     print("** GET CORTEX INFO **")
@@ -23,7 +24,7 @@ async def do_stuff(cortex):
                                     headset_id=cortex.headsets[0])
         print("** CREATE RECORD **")
         await cortex.create_record(title="test record 1")
-        print("** SUBSCRIBE TO PERFORMANCE METRICS **")
+        print("** SUBSCRIBE POW & MET **")
         await cortex.subscribe(['met'])
         while cortex.packet_count < 100:
             await cortex.get_data()
